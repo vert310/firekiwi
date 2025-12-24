@@ -23,9 +23,7 @@ export default function Showcase() {
               className="object-cover"
               priority
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
-              onError={(e) => {
-                console.error("Image failed to load. Please ensure the image is at /public/images/showcase.jpg");
-              }}
+              unoptimized
             />
           </div>
         </motion.div>
