@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FireKiwi - Coming Soon</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <svg class="logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Kiwi body -->
+                <ellipse cx="100" cy="120" rx="45" ry="50" fill="#8B6F47" opacity="0.9" />
+                <ellipse cx="100" cy="115" rx="42" ry="48" fill="#A67C52" />
+
+                <!-- Kiwi head -->
+                <ellipse cx="100" cy="70" rx="35" ry="40" fill="#8B6F47" opacity="0.9" />
+                <ellipse cx="100" cy="68" rx="32" ry="38" fill="#A67C52" />
+
+                <!-- Kiwi beak -->
+                <ellipse cx="100" cy="60" rx="8" ry="12" fill="#FF8C42" transform="rotate(-15 100 60)" />
+
+                <!-- Kiwi eye -->
+                <circle cx="92" cy="65" r="6" fill="#2C2C2C" />
+                <circle cx="94" cy="63" r="2" fill="#FFFFFF" />
+
+                <!-- Kiwi legs -->
+                <ellipse cx="85" cy="165" rx="5" ry="12" fill="#FF8C42" />
+                <ellipse cx="115" cy="165" rx="5" ry="12" fill="#FF8C42" />
+
+                <!-- Fire element - stylized flames around kiwi -->
+                <g class="flames">
+                    <!-- Left flame -->
+                    <path d="M 50 100 Q 45 80 50 70 Q 55 60 60 70 Q 65 80 60 90 Q 55 100 50 100" fill="#FF6B35"
+                        opacity="0.8" />
+                    <path d="M 50 100 Q 48 85 52 75 Q 56 65 58 75 Q 60 85 58 95 Q 56 100 50 100" fill="#FF8C42"
+                        opacity="0.9" />
+
+                    <!-- Right flame -->
+                    <path d="M 150 100 Q 155 80 150 70 Q 145 60 140 70 Q 135 80 140 90 Q 145 100 150 100" fill="#FF6B35"
+                        opacity="0.8" />
+                    <path d="M 150 100 Q 152 85 148 75 Q 144 65 142 75 Q 140 85 142 95 Q 144 100 150 100" fill="#FF8C42"
+                        opacity="0.9" />
+
+                    <!-- Top flame -->
+                    <path d="M 100 30 Q 95 20 100 10 Q 105 20 110 25 Q 108 30 105 28 Q 102 30 100 30" fill="#FF6B35"
+                        opacity="0.8" />
+                    <path d="M 100 30 Q 98 22 101 15 Q 104 22 103 26 Q 102 28 100 30" fill="#FF8C42" opacity="0.9" />
+
+                    <!-- Bottom flame -->
+                    <path d="M 100 170 Q 95 180 100 190 Q 105 180 110 175 Q 108 170 105 172 Q 102 170 100 170"
+                        fill="#FF6B35" opacity="0.8" />
+                    <path d="M 100 170 Q 98 178 101 185 Q 104 178 103 174 Q 102 172 100 170" fill="#FF8C42"
+                        opacity="0.9" />
+                </g>
+
+                <!-- Sparkles/particles -->
+                <circle cx="70" cy="50" r="2" fill="#FFD700" opacity="0.7">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="130" cy="50" r="2" fill="#FFD700" opacity="0.7">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="2.5s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="60" cy="130" r="2" fill="#FFD700" opacity="0.7">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="1.8s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="140" cy="130" r="2" fill="#FFD700" opacity="0.7">
+                    <animate attributeName="opacity" values="0.3;1;0.3" dur="2.2s" repeatCount="indefinite" />
+                </circle>
+            </svg>
+        </div>
+
+        <h1 class="title">FireKiwi</h1>
+        <p class="subtitle">Coming Soon</p>
+
+        <div class="decorative-elements">
+            <div class="leaf leaf-1"></div>
+            <div class="leaf leaf-2"></div>
+            <div class="leaf leaf-3"></div>
+        </div>
+    </div>
+</body>
+
+</html>
