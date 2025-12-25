@@ -44,6 +44,21 @@ export async function POST(request: NextRequest) {
       .eq("email", email)
       .maybeSingle();
 
+    if (checkError) {
+      console.error("Database check error:", checkError);
+      // If table doesn't exist, provide helpful error
+      if (checkError.message?.includes("relation") || checkError.message?.includes("does not exist")) {
+        return NextResponse.json(
+          { error: "Database table not found. Please create the waitlist table in Supabase." },
+          { status: 500 }
+        );
+      }
+      return NextResponse.json(
+        { error: "Database connection error. Please try again." },
+        { status: 500 }
+      );
+    }
+
     if (existingEmail) {
       return NextResponse.json(
         { error: "Email already registered" },
@@ -58,8 +73,15 @@ export async function POST(request: NextRequest) {
 
     if (insertError) {
       console.error("Database insert error:", insertError);
+      // If table doesn't exist, provide helpful error
+      if (insertError.message?.includes("relation") || insertError.message?.includes("does not exist")) {
+        return NextResponse.json(
+          { error: "Database table not found. Please create the waitlist table in Supabase." },
+          { status: 500 }
+        );
+      }
       return NextResponse.json(
-        { error: "Failed to save email" },
+        { error: "Failed to save email. Please try again." },
         { status: 500 }
       );
     }
@@ -115,8 +137,34 @@ export async function POST(request: NextRequest) {
     );
   } catch (error: any) {
     console.error("Waitlist submission error:", error);
+    
+    // Provide more specific error messages
+    if (error.message?.includes("Supabase credentials")) {
+      return NextResponse.json(
+        { error: "Server configuration error. Please contact support." },
+        { status: 500 }
+      );
+    }
+    
+    if (error.message?.includes("Resend API key")) {
+      return NextResponse.json(
+        { error: "Email service configuration error. Please contact support." },
+        { status: 500 }
+      );
+    }
+    
+    // Log the full error for debugging
+    console.error("Full error details:", {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+    });
+    
     return NextResponse.json(
-      { error: "Failed to process request. Please try again." },
+      { 
+        error: "Failed to process request. Please try again.",
+        details: process.env.NODE_ENV === "development" ? error.message : undefined
+      },
       { status: 500 }
     );
   }
