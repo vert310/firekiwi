@@ -56,6 +56,58 @@ CREATE INDEX IF NOT EXISTS idx_waitlist_email ON waitlist(email);
 3. Create a new API key
 4. Copy the API key
 
+### 5a. Add DNS Records to Your Domain (Namecheap)
+
+To verify your domain in Resend and enable sending emails from your domain, you need to add DNS records in Namecheap:
+
+1. **Log in to Namecheap**
+   - Go to [namecheap.com](https://www.namecheap.com)
+   - Click **"Sign In"** in the top right corner
+   - Enter your username and password
+
+2. **Navigate to Domain List**
+   - After logging in, click on **"Domain List"** in the left sidebar (or go to: https://ap.www.namecheap.com/domains/list/)
+   - You'll see a list of all your domains
+
+3. **Select Your Domain**
+   - Find **firekiwi.com** in the list
+   - Click on the **"Manage"** button next to it
+
+4. **Access DNS Settings**
+   - In the domain management page, look for the **"Advanced DNS"** tab
+   - Click on **"Advanced DNS"** (it's usually the second tab)
+
+5. **Add the TXT Record**
+   - Scroll down to the **"Host Records"** section
+   - Look for the **"TXT Records"** section (or find an **"Add New Record"** button)
+   - Click **"Add New Record"** button
+   - In the record form:
+     - **Type**: Select **"TXT Record"** from the dropdown
+     - **Host**: Enter the name Resend provides (often `_resend._domainkey` or just `@` for root domain)
+       - If Resend shows `_resend._domainkey.firekiwi.com`, enter `_resend._domainkey`
+       - If Resend shows just the domain, enter `@`
+     - **Value**: Paste the long string value that Resend provides (this is the DKIM/SPF record)
+     - **TTL**: Leave as default (usually "Automatic" or "30 min")
+   - Click **"Save All Changes"** (green checkmark icon) or **"Save"** button
+
+6. **Verify the Record**
+   - The new TXT record should now appear in your DNS records list
+   - Double-check that the Host and Value match exactly what Resend provided
+
+7. **Wait for DNS Propagation**
+   - DNS changes can take 5-10 minutes to propagate, but sometimes up to 24-48 hours
+   - You can check propagation status using tools like:
+     - [whatsmydns.net](https://www.whatsmydns.net)
+     - [dnschecker.org](https://dnschecker.org)
+   - In Resend, you can check the domain verification status - it will show as "Verified" once DNS has propagated
+
+8. **Additional Records (if needed)**
+   - Resend may require multiple records (SPF, DKIM, DMARC)
+   - Repeat steps 5-6 for each record Resend provides
+   - Make sure to use the exact Host and Value for each record
+
+**Note**: If you're using Namecheap's BasicDNS, you may need to switch to Namecheap's PremiumDNS or use a custom nameserver. Most domains work fine with BasicDNS for TXT records.
+
 ## 6. Configure Environment Variables in Vercel
 
 1. Go to your Vercel project → **Settings** → **Environment Variables**

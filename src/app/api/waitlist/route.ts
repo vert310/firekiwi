@@ -99,8 +99,11 @@ export async function POST(request: NextRequest) {
 
     // Send acknowledgement email
     try {
-      await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL || "FireKiwi <onboarding@resend.dev>",
+      const fromEmail = process.env.RESEND_FROM_EMAIL || "FireKiwi <onboarding@resend.dev>";
+      console.log("Sending email from:", fromEmail, "to:", email);
+      
+      const emailResult = await resend.emails.send({
+        from: fromEmail,
         to: email,
         subject: "Welcome to the FireKiwi Waitlist! 🎉",
         html: `
@@ -137,9 +140,17 @@ export async function POST(request: NextRequest) {
           </html>
         `,
       });
-    } catch (emailError) {
+      
+      console.log("Email sent successfully:", emailResult);
+    } catch (emailError: any) {
       console.error("Failed to send email:", emailError);
-      // Don't fail the request if email fails, just log it
+      console.error("Email error details:", {
+        message: emailError.message,
+        name: emailError.name,
+        response: emailError.response,
+      });
+      // Don't fail the request if email fails, but log it for debugging
+      // The email might fail if domain isn't verified, but user is still added to waitlist
     }
 
     return NextResponse.json(
