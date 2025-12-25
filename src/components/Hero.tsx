@@ -1,10 +1,45 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { Icon } from "./ui/Icon";
 import { fadeInUp, staggerContainer } from "@/lib/motion";
 
 export default function Hero() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("loading");
+    setMessage("");
+
+    try {
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatus("success");
+        setMessage("Thanks! We'll notify you when we launch.");
+        setEmail("");
+      } else {
+        setStatus("error");
+        setMessage(data.error || "Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      setStatus("error");
+      setMessage("Failed to submit. Please try again.");
+    }
+  };
+
   return (
     <section className="relative z-10 pt-24 pb-8 md:pt-32 md:pb-12">
       <div className="max-w-6xl mx-auto px-6 md:px-8">
@@ -42,28 +77,40 @@ export default function Hero() {
           <motion.form
             variants={fadeInUp}
             className="flex flex-col sm:flex-row gap-3 mb-12"
-            onSubmit={(e) => {
-              e.preventDefault();
-              // Handle form submission
-            }}
+            onSubmit={handleSubmit}
           >
             <input
               type="email"
               placeholder="Enter your email"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={status === "loading"}
               aria-label="Email address"
-              className="flex-1 px-6 py-4 rounded-full bg-[#141414] border border-border-dark text-white placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent-lime focus:border-transparent transition-all"
+              className="flex-1 px-6 py-4 rounded-full bg-[#141414] border border-border-dark text-white placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent-lime focus:border-transparent transition-all disabled:opacity-50"
             />
             <motion.button
               type="submit"
-              className="px-8 py-4 rounded-full bg-accent-lime-button text-black font-semibold flex items-center justify-center gap-2 hover:brightness-110 hover:shadow-glow-hover active:scale-95 transition-all"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              disabled={status === "loading"}
+              className="px-8 py-4 rounded-full bg-accent-lime-button text-black font-semibold flex items-center justify-center gap-2 hover:brightness-110 hover:shadow-glow-hover active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              whileHover={{ scale: status === "loading" ? 1 : 1.02 }}
+              whileTap={{ scale: status === "loading" ? 1 : 0.98 }}
             >
-              Get Notified
-              <Icon name="arrow-right" size={18} />
+              {status === "loading" ? "Submitting..." : "Get Notified"}
+              {status !== "loading" && <Icon name="arrow-right" size={18} />}
             </motion.button>
           </motion.form>
+          {message && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`mb-4 text-sm ${
+                status === "success" ? "text-accent-lime" : "text-red-400"
+              }`}
+            >
+              {message}
+            </motion.div>
+          )}
 
           <motion.div
             variants={fadeInUp}
