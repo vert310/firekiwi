@@ -41,7 +41,7 @@ export default function Waitlist() {
   };
 
   return (
-    <section className="relative z-10 pt-8 pb-16 md:pt-12 md:pb-24">
+    <section className="relative z-10 pt-4 pb-16 md:pt-6 md:pb-24">
       <div className="max-w-4xl mx-auto px-6 md:px-8">
         <motion.div
           initial="hidden"

@@ -76,7 +76,7 @@ export default function Hero() {
 
           <motion.form
             variants={fadeInUp}
-            className="flex flex-col sm:flex-row gap-3 mb-12"
+            className="flex flex-col sm:flex-row gap-3 mb-6"
             onSubmit={handleSubmit}
           >
             <input
