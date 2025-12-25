@@ -51,10 +51,22 @@ export default function Hero() {
         >
           <motion.div
             variants={fadeInUp}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#141414] border border-[#1C1C1C] mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-lime/10 border-2 border-accent-lime/40 mb-6"
+            animate={{
+              boxShadow: [
+                "0 0 0px rgba(230, 255, 8, 0.4)",
+                "0 0 20px rgba(230, 255, 8, 0.6)",
+                "0 0 0px rgba(230, 255, 8, 0.4)",
+              ],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
           >
-            <Icon name="sparkles" size={14} className="text-accent-lime" />
-            <span className="text-sm text-white">Coming Soon</span>
+            <Icon name="sparkles" size={16} className="text-accent-lime" />
+            <span className="text-sm font-semibold text-accent-lime">Coming Soon</span>
           </motion.div>
 
           <motion.h1
@@ -68,10 +80,16 @@ export default function Hero() {
 
           <motion.p
             variants={fadeInUp}
-            className="text-lg md:text-xl text-text-muted mb-8 leading-relaxed max-w-xl"
+            className="text-lg md:text-xl text-text-muted mb-4 leading-relaxed max-w-xl"
           >
             FireKiwi uses artificial intelligence to transform a single photo into a
             complete, optimized eBay listing in seconds. Snap, generate, and sell.
+          </motion.p>
+          <motion.p
+            variants={fadeInUp}
+            className="text-base text-text-muted/80 mb-8 leading-relaxed max-w-xl italic"
+          >
+            Join the waitlist to be notified when we launch.
           </motion.p>
 
           <motion.form
@@ -96,7 +114,7 @@ export default function Hero() {
               whileHover={{ scale: status === "loading" ? 1 : 1.02 }}
               whileTap={{ scale: status === "loading" ? 1 : 0.98 }}
             >
-              {status === "loading" ? "Submitting..." : "Get Notified"}
+              {status === "loading" ? "Joining Waitlist..." : "Join Waitlist"}
               {status !== "loading" && <Icon name="arrow-right" size={18} />}
             </motion.button>
           </motion.form>
