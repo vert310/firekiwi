@@ -6,7 +6,18 @@ function getSupabaseClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   
+  // Debug logging (will show in Vercel logs)
+  console.log("Supabase URL exists:", !!supabaseUrl);
+  console.log("Supabase URL length:", supabaseUrl?.length || 0);
+  console.log("Supabase Key exists:", !!supabaseKey);
+  console.log("Supabase Key length:", supabaseKey?.length || 0);
+  
   if (!supabaseUrl || !supabaseKey) {
+    console.error("Missing Supabase credentials:", {
+      hasUrl: !!supabaseUrl,
+      hasKey: !!supabaseKey,
+      envKeys: Object.keys(process.env).filter(k => k.includes("SUPABASE"))
+    });
     throw new Error("Supabase credentials are not configured");
   }
   
@@ -140,8 +151,12 @@ export async function POST(request: NextRequest) {
     
     // Provide more specific error messages
     if (error.message?.includes("Supabase credentials")) {
+      console.error("Supabase configuration error - check environment variables");
       return NextResponse.json(
-        { error: "Server configuration error. Please contact support." },
+        { 
+          error: "Server configuration error. Please check that NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in Vercel environment variables.",
+          hint: "Make sure variables are added for Production environment"
+        },
         { status: 500 }
       );
     }
