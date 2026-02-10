@@ -42,3 +42,6 @@ To push this repository to GitHub:
 - `styles.css` - Styling and animations
 - `.gitignore` - Git ignore rules
 
+
+
+

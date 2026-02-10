@@ -79,10 +79,10 @@ export default function RootLayout({
         <html lang="en" className={inter.variable}>
             <body className={`${inter.className} antialiased`}>
                 <Script
-                    async
+                    id="adsbygoogle"
+                    strategy="afterInteractive"
                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2650916309334823"
                     crossOrigin="anonymous"
-                    strategy="afterInteractive"
                 />
                 {children}
             </body>

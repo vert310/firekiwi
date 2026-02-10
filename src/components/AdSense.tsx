@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 /**
  * AdSense Component for Next.js
@@ -35,14 +35,40 @@ export default function AdSense({
   style = { display: "block", textAlign: "center", minHeight: "100px" },
   className = "",
 }: AdSenseProps) {
+  const adInitialized = useRef(false);
+
   useEffect(() => {
-    try {
-      if (typeof window !== "undefined" && window.adsbygoogle) {
-        window.adsbygoogle.push({});
+    // Wait for the script to load and initialize only once
+    const initializeAd = () => {
+      if (adInitialized.current) return;
+      
+      try {
+        if (typeof window !== "undefined" && window.adsbygoogle) {
+          // Check if adsbygoogle is an array (script loaded)
+          if (Array.isArray(window.adsbygoogle)) {
+            window.adsbygoogle.push({});
+            adInitialized.current = true;
+          }
+        } else {
+          // Script not loaded yet, retry after a short delay
+          setTimeout(initializeAd, 100);
+        }
+      } catch (err) {
+        console.error("AdSense error:", err);
       }
-    } catch (err) {
-      console.error("AdSense error:", err);
-    }
+    };
+
+    // Start initialization
+    initializeAd();
+
+    // Also try after a delay in case script loads later
+    const timeoutId = setTimeout(() => {
+      if (!adInitialized.current) {
+        initializeAd();
+      }
+    }, 500);
+    
+    return () => clearTimeout(timeoutId);
   }, []);
 
   // Don't render if adSlot is placeholder
